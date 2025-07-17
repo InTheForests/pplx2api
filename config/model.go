@@ -42,9 +42,26 @@ func init() {
 		model := map[string]string{
 			"id": k,
 		}
+		// 互联网搜索
 		modelSearch := map[string]string{
 			"id": k + "-search",
 		}
-		ResponseModles = append(ResponseModles, model, modelSearch)
+		// 学术搜索
+		modelScholar := map[string]string{
+			"id": k + "-scholar",
+		}
+		// 社区搜索
+		modelSocial := map[string]string{
+			"id": k + "-social",
+		}
+		// Edgar数据库搜索
+		modelEdgar := map[string]string{
+			"id": k + "-edgar",
+		}
+		// 全部搜索
+		modelAll := map[string]string{
+			"id": k + "-all",
+		}
+		ResponseModles = append(ResponseModles, model, modelSearch, modelScholar, modelSocial, modelEdgar, modelAll)
 	}
 }

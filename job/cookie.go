@@ -182,7 +182,7 @@ func (su *SessionUpdater) updateAllSessions() {
 			defer wg.Done()
 			// 创建客户端并更新 cookie
 			// 写死 model 和 openSearch 参数
-			client := core.NewClient(origSession.SessionKey, proxy, "claude-3-opus-20240229", false)
+			client := core.NewClient(origSession.SessionKey, proxy, "claude-3-opus-20240229", []string{})
 			newCookie, err := client.GetNewCookie()
 			if err != nil {
 				log.Printf("Failed to update session %d: %v", index, err)

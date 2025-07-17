@@ -27,7 +27,7 @@ type Client struct {
 	client       *req.Client
 	Model        string
 	Attachments  []string
-	OpenSerch    bool
+	OpenSerch    []string
 }
 
 // Perplexity API structures
@@ -113,7 +113,7 @@ type ImageModeBlock struct {
 }
 
 // NewClient creates a new Perplexity API client
-func NewClient(sessionToken string, proxy string, model string, openSerch bool) *Client {
+func NewClient(sessionToken string, proxy string, model string, openSerch []string) *Client {
 	client := req.C().ImpersonateChrome().SetTimeout(time.Minute * 10)
 	client.Transport.SetResponseHeaderTimeout(time.Second * 10)
 	if proxy != "" {
@@ -201,9 +201,9 @@ func (c *Client) SendMessage(message string, stream bool, is_incognito bool, gc 
 		},
 		QueryStr: message,
 	}
-	if c.OpenSerch {
+	if len(c.OpenSerch) > 0 {
 		requestBody.Params.SearchFocus = "internet"
-		requestBody.Params.Sources = append(requestBody.Params.Sources, "web")
+		requestBody.Params.Sources = append(requestBody.Params.Sources, c.OpenSerch...)
 	}
 	logger.Info(fmt.Sprintf("Perplexity request body: %v", requestBody))
 	// Make the request

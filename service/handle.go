@@ -55,14 +55,26 @@ func ChatCompletionsHandler(c *gin.Context) {
 	if model == "" {
 		model = "claude-3.7-sonnet"
 	}
-	openSearch := false
+	var openSearch []string
 	if strings.HasSuffix(model, "-search") {
-		openSearch = true
+		openSearch = []string{"web"}
 		model = strings.TrimSuffix(model, "-search")
+	} else if strings.HasSuffix(model, "-scholar") {
+		openSearch = []string{"scholar"}
+		model = strings.TrimSuffix(model, "-scholar")
+	} else if strings.HasSuffix(model, "-social") {
+		openSearch = []string{"social"}
+		model = strings.TrimSuffix(model, "-social")
+	} else if strings.HasSuffix(model, "-edgar") {
+		openSearch = []string{"edgar"}
+		model = strings.TrimSuffix(model, "-edgar")
+	} else if strings.HasSuffix(model, "-all") {
+		openSearch = []string{"web", "scholar", "social", "edgar"}
+		model = strings.TrimSuffix(model, "-all")
 	}
 	model = config.ModelMapGet(model, model) // 获取模型名称
 	var prompt strings.Builder
-	img_data_list := []string{}
+	var img_data_list []string
 	// Format messages into a single prompt
 	for _, msg := range req.Messages {
 		role, roleOk := msg["role"].(string)
